@@ -5,20 +5,20 @@
 
 template<class T>
 class MyStack {
-private:
-    T* Mystack;
-    int len;
-    int top;
-public:
-    explicit MyStack(int);
-    MyStack(const MyStack&);
-    ~MyStack();
-    int CurrLen() const;
-    T get() const;
-    void push(T);
-    T pop();
-    bool isFull() const;
-    bool isEmpty() const;
+ private:
+     T* Mystack;
+     int len;
+     int top;
+ public:
+     explicit MyStack(int);
+     MyStack(const MyStack&);
+     ~MyStack();
+     int CurrLen() const;
+     T get() const;
+     void push(T);
+     T pop();
+     bool isFull() const;
+     bool isEmpty() const;
 };
 
 template<class T>
@@ -59,7 +59,8 @@ T MyStack<T>::get() const {
     if (!isEmpty()) {
         return Mystack[top];
     }
-    else {
+    else
+    {
         throw "The Mystack is empty";
     }
 }
@@ -69,7 +70,8 @@ void MyStack<T>::push(T x) {
     if (isFull()) {
         throw "The Mystack is full";
     }
-    else {
+    else
+    {
         Mystack[++top] = x;
     }
 }
@@ -79,7 +81,8 @@ T MyStack<T>::pop() {
     if (isEmpty()) {
         throw "The Mystack is empty";
     }
-    else {
+    else
+    {
         return Mystack[top--];
     }
 }
