@@ -1,8 +1,9 @@
-// Copyright 2020 A.SHT
-#ifndef INCLUDE_POSTFIX_H_
-#define INCLUDE_POSTFIX_H_
+// Copyright 2020 Andrey Rogov
+#pragma once
+
+#include "../MyStack.h"
 #include <string>
+#include <unordered_map>
 
-std::string infix2postfix(std::string infix);
+std::string infix2prefix(std::string& infix);
 
-#endif  // INCLUDE_POSTFIX_H_
