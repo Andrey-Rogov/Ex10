@@ -1,66 +1,87 @@
 // Copyright 2020 Andrey Rogov
-#pragma once
 
-#include <cassert>
-
-using u_int = unsigned int;
+#ifndef INCLUDE_MYSTACK_H_
+#define INCLUDE_MYSTACK_H_
 
 template<class T>
 class MyStack {
 private:
-    T* values;
-    u_int size;
-    u_int reserved_size;
+    T* Mystack;
+    int len;
+    int top;
 public:
-    MyStack(u_int sz) : reserved_size(sz) {
-        this->size = 0;
-        this->values = new T[reserved_size];
-    }
-    MyStack(const MyStack& rhv) {
-        this->reserved_size = rhv.reserved_size;
-        this->values = new T[this->reserved_size];
-        for (int i = 0; i < rhv.size; ++i)
-            this->values[i] = rhv.values[i];
-        this->size = rhv.size;
-    }
-    ~MyStack() {
-        delete[] this->values;
-    }
-    T& get() const;
-    T& pop();
-    void push(const T& val);
+    explicit MyStack(int);
+    MyStack(const MyStack&);
+    ~MyStack();
+    int CurrLen() const;
+    T get() const;
+    void push(T);
+    T pop();
     bool isFull() const;
     bool isEmpty() const;
 };
 
-template <class T>
-T& MyStack<T>::get() const {
-    return this->values[this->size - 1];
+template<class T>
+MyStack<T>::MyStack(int _len) : top(-1), len(_len), Mystack(new T[len]) {}
+
+template<class T>
+MyStack<T>::MyStack(const MyStack& another_Mystack) {
+    top = another_Mystack.top;
+    Mystack = new T[another_Mystack.len];
+    len = another_Mystack.len;
+    for (int i = 0; i < len; ++i) {
+        Mystack[i] = another_Mystack.Mystack[i];
+    }
 }
 
 template<class T>
-T& MyStack<T>::pop() // Warning memory leak
-{
-    return this->values[--this->size];
+MyStack<T>::~MyStack() {
+    delete[] Mystack;
 }
 
 template<class T>
-void MyStack<T>::push(const T& val) // Warning memory leak
-{
-    assert(this->size < this->reserved_size);
-    this->values[this->size] = val;
-    this->size++;
+int MyStack<T>::CurrLen() const {
+    return top + 1;
 }
 
 template<class T>
-inline bool MyStack<T>::isFull() const
-{
-    return this->size == this->reserved_size;
+bool MyStack<T>::isEmpty() const {
+    return top == -1;
 }
 
 template<class T>
-inline bool MyStack<T>::isEmpty() const
-{
-    return this->size == 0;
+bool MyStack<T>::isFull() const {
+    return top == len - 1;
 }
 
+template<class T>
+T MyStack<T>::get() const {
+    if (!isEmpty()) {
+        return Mystack[top];
+    }
+    else {
+        throw "The Mystack is empty";
+    }
+}
+
+template<class T>
+void MyStack<T>::push(T x) {
+    if (isFull()) {
+        throw "The Mystack is full";
+    }
+    else {
+        Mystack[++top] = x;
+    }
+}
+
+template<class T>
+T MyStack<T>::pop() {
+    if (isEmpty()) {
+        throw "The Mystack is empty";
+    }
+    else {
+        return Mystack[top--];
+    }
+}
+
+#endif  // INCLUDE_MYSTACK_H_
